@@ -1,113 +1,247 @@
+"use client";
+
+import { Dropdown } from "@/components/dropdown";
+import axios from "axios";
 import Image from "next/image";
+import { useState } from "react";
 
 export default function Home() {
+  const [file, setFile] = useState(null);
+  const [fileUploaded, setFileUploaded] = useState(false);
+  const [response, setResponse] = useState([
+    // {
+    //     "slide_number": 1,
+    //     "texts": "પાવરપોઈન્ટ થી વિડિયો રૂપાંતરણનો ઓટોમેશન પ્રક્રિયા ઝલક અને પાયથોન વાપરીને અમલીકરણ - જય અરદેશના"
+    // },
+    // {
+    //     "slide_number": 2,
+    //     "texts": "કાર્યનો ઝલક ફ્રન્ટએન્ડ દ્વારા PPT ફાઇલ અપલોડ કરો. PPT માંથી સ્લાઈડ્સ અને ટેક્સ્ટ ને એક્સટ્રેક્ટ કરો. ટેક્સ્ટને કોઈપણ ભારતીય ભાષામાં ભાષાંતર કરો. ટ્રાન્સલેટ કરેલી ટેક્સ્ટને ઓડિયોમાં રૂપાંતર કરો, આ માટે ઇન્ડિયા TTS નો ઉપયોગ કરો. સ્લાઈડ ઇમેજીસ અને ઓડિયો ને વિડિઓ માં મર્જ કરો. ડાઉનલોડ માટે વિડિઓ પ્રદાન કરો."
+    // },
+    // {
+    //     "slide_number": 3,
+    //     "texts": "પગલું 1 : પાવરપોઇન્ટ ફાઇલો અપલોડ કરો વપરાશકર્તાઓ ફ્રન્ટેન્ડ ઇન્ટરફેસ દ્વારા તેમના PowerPoint ફાઈલો અપલોડ કરે છે. બેકએન્ડે અપલોડ કરેલી ફાઈલ મેળવે છે. પયોથોન લાઇબ્રેરીઓ વાપરવામાં આવી છે : ફ્લાસ્ક અપલોડ સંભાળવા માટે."
+    // },
+    // {
+    //     "slide_number": 4,
+    //     "texts": "પગલું 2: PPTX માંથી સ્લાઇડ્સ અને ટેક્સ્ટ એક્સટ્રેક્ટ કરો. python - pptx લાઇબ્રેરીનો ઉપયોગ કરીને સ્લાઇડની સામગ્રી વાંચવા અને એક્સટ્રેક્ટ કરવા. ટેક્સ્ટ, છબીઓ અને સ્લાઇડ લેઆઉટ્સ એક્સટ્રેક્ટ કરો."
+    // },
+    // {
+    //     "slide_number": 5,
+    //     "texts": "પગલું 3: OpenAI નો ઉપયોગ કરીને લખાણ અનુવાદ કરો ▶️ OpenAI ના ભાષા મોડેલ્સનો ઉપયોગ કરીને અંગ્રેજીથી કોઈપણ ભારતીય ભાષામાં લખાણ ભાષાંતર કરો. ▶️ લક્ષ્યિત ભાષાને સ્પષ્ટપણે નિર્ધારિત કરવાથી OpenAI ના GPT મોડેલ્સ તેમની ભાષાંતરની ક્રિયા માટે પ્રોમ્પ્ટ કરી શકાય છે."
+    // },
+    // {
+    //     "slide_number": 6,
+    //     "texts": "પગલું 4 : OpenAI અને TTS સેવાઓ વાપરીને ઓડિયો ઉત્પન્ન કરો OpenAI નો ઉપયોગ કરીને ટેક્સ્ટ પેદા કરો અથવા સુધારો, પછી તેને તેક્સ્ટ ટુ સ્પીચ(TTS) સેવાઓ દ્વારા ભાષાંતરિત કરો જે ભારતીય ભાષાઓનું સમર્થન કરે છે. OpenAI ની અગ્રેસર ભાષા ક્ષમતાઓ ને TTS સેવાઓ સાથે જોડીને ઉચ્ચ ગુણવત્તિનું ઓડિયો આઉટપુટ પ્રાપ્ત કરો."
+    // },
+    // {
+    //     "slide_number": 7,
+    //     "texts": "પગલું 5 : સ્લાઇડ છબીઓ અને ઓડિયોને વિડિયોમાં વિલીન કરો સ્લાઇડ ઇમેજો અને ઓડિયો ફાઇલો મર્જ કરવા માટે moviepy જેવી લાઇબ્રેરીઝનો ઉપયોગ કરો . દરેક સ્લાઇડને ઇમેજમાં બદલો અને તેને સાનુકૂળ ઓડિયો સાથે જોડો ."
+    // },
+    // {
+    //     "slide_number": 8,
+    //     "texts": "પગલું 6 : વિડિયો ડાઉનલોડ માટે પૂરી પાડો \"વિડિઓ ઉત્પન્ન થવા બાદ , તેને સર્વર પર સ્ટોર કરવામાં આવે છે. ડાઉનલોડ લિંકની સુવિધા વપરાશકર્તાને ફ્રન્ટેન્ડ દ્વારા આપવામાં આવે છે. પાયથોન લાઇબ્રેરીઓ: ફાઈલ સર્વ માટે ફ્લાસ્ક .\""
+    // },
+    // {
+    //     "slide_number": 9,
+    //     "texts": "આગળ છે ગુજરાતીમાં અનુવાદ:\n\nઉપયોગ કરેલી મુખ્ય ટેકનોલોજીઓ અને પાયથોન લાઇબ્રેરીઓ ▶️ Frontend : HTML / CSS , JavaScript , React ( વપરાશકર્તા ઇંટરફેસ માટે ) ▶️ Backend : ફ્રેમવર્ક્સ : Flask / Django ( વિનંતીઓ સંભાળવા, ફાઇલો પ્રક્રિયા કરવા માટે ) ▶️ ફાઇલ સ્ટોરેજ : Amazon S3 , Google Cloud Storage , Microsoft Azure બ્લોબ સ્ટોરેજ ( PowerPoint ફાઇલો, અંતિમ વિડિઓ અપલોડ કરવા અને સંગ્રહ કરવા માટે )"
+    // },
+    // {
+    //     "slide_number": 10,
+    //     "texts": "પ્રશ્નો અને ચર્ચા"
+    // }
+  ]);
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const [language, setLanguage] = useState("");
+  const [time, setTime] = useState("");
+
+  const handleFileUpload = (e) => {
+    const uploadedFile = e.target.files[0];
+    setFile(uploadedFile);
+    setFileUploaded(true);
+  };
+
+  const handleSubmit = async () => {
+    setLoading(true);
+    setMessage("Uploading...");
+
+    const timer = setTimeout(() => {
+      setMessage("Translating...");
+    }, 30000);
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("language", language);
+
+      const response = await axios.post(
+        `https://9b74-2401-4900-8898-c11b-48e5-9013-57df-ae19.ngrok-free.app/api/v1/upload?language=${language}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      setResponse(response.data.slides);
+      clearTimeout(timer);
+      alert("File processed successfully");
+    } catch (error) {
+      alert("There was an error processing the file.");
+    } finally {
+      setLoading(false);
+      setMessage("");
+    }
+  };
+  const handleTextChange = (index, newText) => {
+    const updatedSlides = response.map((slide, i) =>
+      i === index ? { ...slide, texts: newText } : slide
+    );
+    setResponse(updatedSlides);
+  };
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
+    <>
+      {response.length === 0 ? (
+        <div className="min-h-screen flex  bg-blue-100">
+          <div className="basis-1/2 mt-[15%] mx-10">
+            <div className="flex flex-col gap-y-5">
+              <div className="font-bold text-3xl text-center text-blue-600">
+                PowerPoint to Video and Audio Converter
+              </div>
+              <div className=" text-xl text-center text-gray-600">
+                Effortlessly convert your PowerPoint presentations into video
+                and audio files with our online tool. Upload your PPT, and we'll
+                create high-quality content ready for sharing, all without extra
+                software.
+              </div>
+            </div>
+            <div className="bg-white p-8 rounded-lg shadow-lg w-2/3 mx-auto text-center mt-10">
+              <h2 className="text-2xl font-bold text-blue-600 mb-6">
+                Upload Your PPT
+              </h2>
+              <input
+                type="file"
+                accept=".pptx,.ppt"
+                onChange={handleFileUpload}
+                className="block w-full text-sm text-gray-500
+                    file:mr-4 file:py-2 file:px-4
+                    file:rounded-full file:border-0
+                    file:text-sm file:font-semibold
+                    file:bg-blue-50 file:text-blue-600
+                    hover:file:bg-blue-100"
+              />
+              {fileUploaded && (
+                <Dropdown
+                  title={"Language"}
+                  options={["English", "Hindi", "Gujarati"]}
+                  setValue={setLanguage}
+                />
+              )}
+              {loading && (
+                <div className="mt-4 text-blue-600">
+                  <p>{message}</p>
+                  <div className="flex justify-center mt-2">
+                    <div className="loader ease-linear rounded-full border-4 border-t-4 border-blue-200 h-8 w-8"></div>
+                  </div>
+                </div>
+              )}
+              <button
+                onClick={handleSubmit}
+                disabled={!fileUploaded}
+                className="mt-6 w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 disabled:bg-blue-300"
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+          <div className="flex items-center justify-center ">
             <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
+              src={"/home.jpeg"}
+              alt="home-image"
+              className="w-full rounded-l-full"
+              layout="responsive"
               width={100}
-              height={24}
-              priority
+              height={100}
             />
-          </a>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="min-h-screen flex items-start p-10 bg-blue-100">
+          <div className="bg-white p-8 rounded-lg shadow-lg w-full m-2">
+            <h2 className="text-2xl font-bold text-blue-600 mb-6 text-center">
+              Edit Slides
+            </h2>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50 text-balance`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+            {response.map((slide, index) => (
+              <div key={slide.slide_number} className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2 text-center">
+                  Slide {slide.slide_number}
+                </label>
+                <textarea
+                  value={slide.texts}
+                  onChange={(e) => handleTextChange(index, e.target.value)}
+                  className="block w-full p-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  rows="4"
+                />
+              </div>
+            ))}
+          </div>
+          <div className="flex items-center justify-center w-full h-screen sticky top-0">
+            <Image
+              src={"/ppt.png"}
+              alt="ppt-image"
+              width={200}
+              height={100}
+              className="absolute bottom-[12%] left-[12%] -rotate-6"
+            />
+            <Image
+              src={"/ppt-2.png"}
+              alt="ppt-image-2"
+              width={200}
+              height={100}
+              className="absolute top-[12%] right-[12%] rotate-6"
+            />
+            <Image
+              src={"/ai.png"}
+              alt="ai-image"
+              width={200}
+              height={100}
+              className="absolute top-[12%] left-[12%] -rotate-6"
+            />
+            <Image
+              src={"/ai-2.png"}
+              alt="ai-2-image"
+              width={200}
+              height={100}
+              className="absolute bottom-[12%] right-[12%] rotate-6"
+            />
+            <div className="bg-white p-16 rounded-md shadow-md ">
+              <Dropdown
+                title={"Transition Time"}
+                options={[
+                  "1 sec",
+                  "2 sec",
+                  "3 sec",
+                  "4 sec",
+                  "5 sec",
+                  "6 sec",
+                  "7 sec",
+                  "8 sec",
+                  "9 sec",
+                  "10 sec",
+                ]}
+                setValue={setTime}
+              />
+              <button
+                onClick={() => alert(JSON.stringify(slides))}
+                className="mt-6 w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700"
+              >
+                Generate Video
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
