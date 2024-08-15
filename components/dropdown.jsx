@@ -1,7 +1,7 @@
 export const Dropdown = ({ title, options, setValue }) => {
-    const handleLanguageChange = (e) => {
-        setValue(e.target.value); // Update state with selected language
-      };
+  const handleLanguageChange = (e) => {
+    setValue(e.target.value); // Update state with selected language
+  };
   return (
     <div className="mt-6">
       <label
@@ -17,7 +17,7 @@ export const Dropdown = ({ title, options, setValue }) => {
         className="mt-1 block w-full p-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
       >
         {options.map((option) => {
-          return <option value={option} >{option}</option>;
+          return <option value={option} key={option}>{option}</option>;
         })}
       </select>
     </div>

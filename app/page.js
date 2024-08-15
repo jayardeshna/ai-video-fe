@@ -54,6 +54,7 @@ export default function Home() {
   const [message, setMessage] = useState("");
   const [language, setLanguage] = useState("");
   const [time, setTime] = useState("");
+  const [fileName, setFileName] = useState("");
 
   const handleFileUpload = (e) => {
     const uploadedFile = e.target.files[0];
@@ -75,7 +76,7 @@ export default function Home() {
       formData.append("language", language);
 
       const response = await axios.post(
-        `https://9b74-2401-4900-8898-c11b-48e5-9013-57df-ae19.ngrok-free.app/api/v1/upload?language=${language}`,
+        `http://localhost:4000/api/v1/upload?language=${language}`,
         formData,
         {
           headers: {
@@ -84,6 +85,7 @@ export default function Home() {
         }
       );
       setResponse(response.data.slides);
+      setFileName(response.data.filename);
       clearTimeout(timer);
       alert("File processed successfully");
     } catch (error) {
@@ -99,6 +101,24 @@ export default function Home() {
     );
     setResponse(updatedSlides);
   };
+
+  const handleGenerateVideo = async () => {
+    const data = { "slides": response, "filename": fileName }
+    console.log(data)
+    const responseFromGenerateVideo = await axios.post(
+      `http://localhost:4000/api/v1/generate-video`,
+      data,
+    );
+    if (responseFromGenerateVideo.status === 200) {
+      setResponse([])
+      const filePath = responseFromGenerateVideo.data.final_video;
+      window.electronAPI.openFolder(filePath);
+    }
+
+
+
+
+  }
   return (
     <>
       {response.length === 0 ? (
@@ -110,7 +130,7 @@ export default function Home() {
               </div>
               <div className=" text-xl text-center text-gray-600">
                 Effortlessly convert your PowerPoint presentations into video
-                and audio files with our online tool. Upload your PPT, and we'll
+                and audio files with our online tool. Upload your PPT, and we&apos;ll
                 create high-quality content ready for sharing, all without extra
                 software.
               </div>
@@ -162,6 +182,7 @@ export default function Home() {
               layout="responsive"
               width={100}
               height={100}
+              unoptimized
             />
           </div>
         </div>
@@ -193,6 +214,7 @@ export default function Home() {
               width={200}
               height={100}
               className="absolute bottom-[12%] left-[12%] -rotate-6"
+              unoptimized
             />
             <Image
               src={"/ppt-2.png"}
@@ -200,6 +222,7 @@ export default function Home() {
               width={200}
               height={100}
               className="absolute top-[12%] right-[12%] rotate-6"
+              unoptimized
             />
             <Image
               src={"/ai.png"}
@@ -207,6 +230,7 @@ export default function Home() {
               width={200}
               height={100}
               className="absolute top-[12%] left-[12%] -rotate-6"
+              unoptimized
             />
             <Image
               src={"/ai-2.png"}
@@ -214,6 +238,7 @@ export default function Home() {
               width={200}
               height={100}
               className="absolute bottom-[12%] right-[12%] rotate-6"
+              unoptimized
             />
             <div className="bg-white p-16 rounded-md shadow-md ">
               <Dropdown
@@ -233,7 +258,7 @@ export default function Home() {
                 setValue={setTime}
               />
               <button
-                onClick={() => alert(JSON.stringify(slides))}
+                onClick={() => handleGenerateVideo()}
                 className="mt-6 w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700"
               >
                 Generate Video

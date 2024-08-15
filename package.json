@@ -2,19 +2,32 @@
   "name": "ai-avatar",
   "version": "0.1.0",
   "private": true,
+  "main": "main.js",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "electron-dev": "electron .\"",
+    "app-dev": "concurrently -n \"NEXT,ELECTRON\" -c \"yellow,blue\" --kill-others \"next dev\" \"electron .\"",
+    "electron-start": "wait-on http://localhost:3000 && electron .",
+    "electron-pack": "electron-packager . --overwrite --platform=win32 --arch=x64 --prune=true --out=release-builds",
+    "app-build": "next build && electron-builder"
   },
   "dependencies": {
     "axios": "^1.7.4",
+    "electron-packager": "^17.1.2",
+    "electron-serve": "^2.0.0",
+    "express": "^4.19.2",
     "next": "14.2.5",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "wait-on": "^7.2.0"
   },
   "devDependencies": {
+    "concurrently": "^8.2.2",
+    "electron": "^31.3.1",
+    "electron-builder": "^24.13.3",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
     "postcss": "^8",

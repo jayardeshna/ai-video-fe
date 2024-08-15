@@ -8,14 +8,14 @@
 
 # testing
 /coverage
-
+/main.exe
 # next.js
 /.next/
 /out/
-
+/release-builds
 # production
 /build
-
+/uploads
 # misc
 .DS_Store
 *.pem
