@@ -89,6 +89,8 @@ export default function Home() {
   };
 
   const handleGenerateVideo = async () => {
+    setLoading(true);
+    setMessage("Generating Video...");
     const data = { slides: response, filename: fileName };
     console.log(data);
     const responseFromGenerateVideo = await axios.post(
@@ -97,7 +99,9 @@ export default function Home() {
     );
     if (responseFromGenerateVideo.status === 200) {
       setResponse([]);
+      setLoading(false);
       const filePath = responseFromGenerateVideo.data.final_video;
+      alert("Video Generated Successfully !");
       window.electronAPI.openFolder(filePath);
     }
   };
@@ -268,8 +272,17 @@ export default function Home() {
                 ]}
                 setValue={setTime}
               />
+              {loading && (
+                <div className="mt-4 text-blue-600 flex flex-col items-center">
+                  <div className="flex justify-center mt-2">
+                    <div className="loader ease-linear rounded-full border-4 border-t-4 border-blue-200 h-8 w-8"></div>
+                  </div>
+                  <p className="text-center mt-2">{message}</p>
+                </div>
+              )}
               <button
                 onClick={handleGenerateVideo}
+                disabled={loading}
                 className="mt-4 sm:mt-6 w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700"
               >
                 Generate Video
