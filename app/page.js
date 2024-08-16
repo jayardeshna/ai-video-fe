@@ -95,6 +95,7 @@ export default function Home() {
       setMessage("");
     }
   };
+
   const handleTextChange = (index, newText) => {
     const updatedSlides = response.map((slide, i) =>
       i === index ? { ...slide, texts: newText } : slide
@@ -103,40 +104,37 @@ export default function Home() {
   };
 
   const handleGenerateVideo = async () => {
-    const data = { "slides": response, "filename": fileName }
-    console.log(data)
+    const data = { slides: response, filename: fileName };
+    console.log(data);
     const responseFromGenerateVideo = await axios.post(
       `http://localhost:4000/api/v1/generate-video`,
-      data,
+      data
     );
     if (responseFromGenerateVideo.status === 200) {
-      setResponse([])
+      setResponse([]);
       const filePath = responseFromGenerateVideo.data.final_video;
       window.electronAPI.openFolder(filePath);
     }
+  };
 
-
-
-
-  }
   return (
     <>
       {response.length === 0 ? (
-        <div className="min-h-screen flex  bg-blue-100">
-          <div className="basis-1/2 mt-[15%] mx-10">
-            <div className="flex flex-col gap-y-5">
-              <div className="font-bold text-3xl text-center text-blue-600">
+        <div className="min-h-screen flex flex-col md:flex-row bg-blue-100">
+          <div className="basis-full md:basis-1/2 mt-[15%] mx-4 md:mx-10">
+            <div className="flex flex-col gap-y-5 text-center md:text-left">
+              <div className="font-bold text-2xl md:text-3xl text-blue-600">
                 PowerPoint to Video and Audio Converter
               </div>
-              <div className=" text-xl text-center text-gray-600">
+              <div className="text-lg md:text-xl text-gray-600">
                 Effortlessly convert your PowerPoint presentations into video
-                and audio files with our online tool. Upload your PPT, and we&apos;ll
-                create high-quality content ready for sharing, all without extra
-                software.
+                and audio files with our online tool. Upload your PPT, and
+                we&apos;ll create high-quality content ready for sharing, all
+                without extra software.
               </div>
             </div>
-            <div className="bg-white p-8 rounded-lg shadow-lg w-2/3 mx-auto text-center mt-10">
-              <h2 className="text-2xl font-bold text-blue-600 mb-6">
+            <div className="bg-white p-8 rounded-lg shadow-lg w-full md:w-2/3 mx-auto text-center mt-10">
+              <h2 className="text-xl md:text-2xl font-bold text-blue-600 mb-6">
                 Upload Your PPT
               </h2>
               <input
@@ -174,7 +172,7 @@ export default function Home() {
               </button>
             </div>
           </div>
-          <div className="flex items-center justify-center ">
+          <div className="hidden md:flex items-center justify-center w-full">
             <Image
               src={"/home.jpeg"}
               alt="home-image"
@@ -187,9 +185,9 @@ export default function Home() {
           </div>
         </div>
       ) : (
-        <div className="min-h-screen flex items-start p-10 bg-blue-100">
-          <div className="bg-white p-8 rounded-lg shadow-lg w-full m-2">
-            <h2 className="text-2xl font-bold text-blue-600 mb-6 text-center">
+        <div className="min-h-screen flex flex-col lg:flex-row items-start p-4 md:p-10 bg-blue-100">
+          <div className="bg-white p-8 rounded-lg shadow-lg w-full lg:w-2/3 m-2">
+            <h2 className="text-xl md:text-2xl font-bold text-blue-600 mb-6 text-center">
               Edit Slides
             </h2>
 
@@ -207,40 +205,42 @@ export default function Home() {
               </div>
             ))}
           </div>
-          <div className="flex items-center justify-center w-full h-screen sticky top-0">
-            <Image
-              src={"/ppt.png"}
-              alt="ppt-image"
-              width={200}
-              height={100}
-              className="absolute bottom-[12%] left-[12%] -rotate-6"
-              unoptimized
-            />
-            <Image
-              src={"/ppt-2.png"}
-              alt="ppt-image-2"
-              width={200}
-              height={100}
-              className="absolute top-[12%] right-[12%] rotate-6"
-              unoptimized
-            />
-            <Image
-              src={"/ai.png"}
-              alt="ai-image"
-              width={200}
-              height={100}
-              className="absolute top-[12%] left-[12%] -rotate-6"
-              unoptimized
-            />
-            <Image
-              src={"/ai-2.png"}
-              alt="ai-2-image"
-              width={200}
-              height={100}
-              className="absolute bottom-[12%] right-[12%] rotate-6"
-              unoptimized
-            />
-            <div className="bg-white p-16 rounded-md shadow-md ">
+          <div className="flex items-center justify-center w-full lg:w-1/3 h-auto lg:h-screen lg:sticky lg:top-0">
+            <div className="relative w-full h-full">
+              <Image
+                src={"/ppt.png"}
+                alt="ppt-image"
+                width={200}
+                height={100}
+                className="absolute bottom-[12%] left-[12%] -rotate-6"
+                unoptimized
+              />
+              <Image
+                src={"/ppt-2.png"}
+                alt="ppt-image-2"
+                width={200}
+                height={100}
+                className="absolute top-[12%] right-[12%] rotate-6"
+                unoptimized
+              />
+              <Image
+                src={"/ai.png"}
+                alt="ai-image"
+                width={200}
+                height={100}
+                className="absolute top-[12%] left-[12%] -rotate-6"
+                unoptimized
+              />
+              <Image
+                src={"/ai-2.png"}
+                alt="ai-2-image"
+                width={200}
+                height={100}
+                className="absolute bottom-[12%] right-[12%] rotate-6"
+                unoptimized
+              />
+            </div>
+            <div className="bg-white p-6 lg:p-16 rounded-md shadow-md w-full">
               <Dropdown
                 title={"Transition Time"}
                 options={[
@@ -258,7 +258,7 @@ export default function Home() {
                 setValue={setTime}
               />
               <button
-                onClick={() => handleGenerateVideo()}
+                onClick={handleGenerateVideo}
                 className="mt-6 w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700"
               >
                 Generate Video
