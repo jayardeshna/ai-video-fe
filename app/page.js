@@ -71,11 +71,11 @@ export default function Home() {
       );
       setResponse(response.data.slides);
       setFileName(response.data.filename);
-      clearTimeout(timer);
       alert("File processed successfully");
     } catch (error) {
       alert("There was an error processing the file.");
     } finally {
+      clearTimeout(timer);
       setLoading(false);
       setMessage("");
     }
@@ -91,8 +91,10 @@ export default function Home() {
   const handleGenerateVideo = async () => {
     setLoading(true);
     setMessage("Generating Video...");
+    const timer = setTimeout(() => {
+      setMessage("Generating Audio...");
+    }, 30000);
     const data = { slides: response, filename: fileName };
-    console.log(data);
     const responseFromGenerateVideo = await axios.post(
       `http://localhost:4000/api/v1/generate-video?language_code=${languages[language]}&tansition_delay=${transitionDelay[time]}`,
       data
@@ -104,6 +106,8 @@ export default function Home() {
       alert("Video Generated Successfully !");
       window.electronAPI.openFolder(filePath);
     }
+    setMessage("");
+    clearTimeout(timer);
   };
 
   return (
