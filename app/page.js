@@ -71,11 +71,11 @@ export default function Home() {
       );
       setResponse(response.data.slides);
       setFileName(response.data.filename);
-      clearTimeout(timer);
       alert("File processed successfully");
     } catch (error) {
       alert("There was an error processing the file.");
     } finally {
+      clearTimeout(timer);
       setLoading(false);
       setMessage("");
     }
@@ -91,8 +91,10 @@ export default function Home() {
   const handleGenerateVideo = async () => {
     setLoading(true);
     setMessage("Generating Video...");
+    const timer = setTimeout(() => {
+      setMessage("Generating Audio...");
+    }, 30000);
     const data = { slides: response, filename: fileName };
-    console.log(data);
     const responseFromGenerateVideo = await axios.post(
       `http://localhost:4000/api/v1/generate-video?language_code=${languages[language]}&tansition_delay=${transitionDelay[time]}`,
       data
@@ -104,6 +106,8 @@ export default function Home() {
       alert("Video Generated Successfully !");
       window.electronAPI.openFolder(filePath);
     }
+    setMessage("");
+    clearTimeout(timer);
   };
 
   return (
@@ -190,10 +194,13 @@ export default function Home() {
           </div>
         </div>
       ) : (
-        <div className="min-h-screen flex flex-col-reverse lg:flex-row items-start justify-center p-4 md:p-6 lg:p-10 bg-blue-100 overflow-hidden gap-5">
+        <div
+          className="min-h-screen flex flex-col-reverse lg:flex-row items-start justify-center p-4 md:p-6 lg:p-10 bg-blue-100 gap-5"
+          style={{ height: "100%" }}
+        >
           <div
-            className="bg-white p-4 sm:p-6 md:p-4 rounded-lg shadow-lg w-full lg:w-2/3 m-2 order-2 lg:order-1"
-            style={{ marginLeft: "-3px" }}
+            className="bg-white p-4 sm:p-6 md:p-4 rounded-lg shadow-lg w-full lg:w-2/3 m-2 order-2 lg:order-1 overflow-y-auto custom-scrollbar"
+            style={{ maxHeight: "100%", marginLeft: "-3px" }}
           >
             <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-blue-600 mb-4 sm:mb-5 md:mb-6 text-center">
               Edit Slides
@@ -214,7 +221,10 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="relative flex flex-col lg:flex-col-reverse items-center justify-center w-full lg:w-1/3 h-auto lg:h-screen lg:sticky lg:top-0 overflow-hidden order-1 lg:order-2">
+          <div
+            className="relative flex flex-col lg:flex-col-reverse items-center justify-center w-full lg:w-1/3 h-auto lg:h-screen lg:sticky lg:top-0 order-1 lg:order-2"
+            style={{ height: "100%" }}
+          >
             <Image
               src={"/ppt.png"}
               alt="ppt-image"
