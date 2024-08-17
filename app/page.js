@@ -90,10 +90,10 @@ export default function Home() {
 
   const handleGenerateVideo = async () => {
     setLoading(true);
-    setMessage("Generating Video...");
+    setMessage("Processing Audio...");
     const timer = setTimeout(() => {
-      setMessage("Generating Audio...");
-    }, 30000);
+      setMessage("Genrating Video...");
+    }, 45000);
     const data = { slides: response, filename: fileName };
     const responseFromGenerateVideo = await axios.post(
       `http://localhost:4000/api/v1/generate-video?language_code=${languages[language]}&tansition_delay=${transitionDelay[time]}`,
@@ -287,7 +287,7 @@ export default function Home() {
               <button
                 onClick={handleGenerateVideo}
                 disabled={loading}
-                className="mt-4 sm:mt-6 w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700"
+                className="mt-4 sm:mt-6 w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 disabled:bg-blue-300"
               >
                 Generate Video
               </button>
