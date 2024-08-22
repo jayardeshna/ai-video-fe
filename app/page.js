@@ -92,11 +92,11 @@ export default function Home() {
     setLoading(true);
     setMessage("Processing Audio...");
     const timer = setTimeout(() => {
-      setMessage("Genrating Video...");
+      setMessage("Generating Video...");
     }, 45000);
     const data = { slides: response, filename: fileName };
     const responseFromGenerateVideo = await axios.post(
-      `http://localhost:4000/api/v1/generate-video?language_code=${languages[language]}&tansition_delay=${transitionDelay[time]}`,
+      `http://localhost:4000/api/v1/generate?transition_delay=${transitionDelay[time]}`,
       data
     );
     if (responseFromGenerateVideo.status === 200) {
@@ -203,7 +203,7 @@ export default function Home() {
             style={{ maxHeight: "100%", marginLeft: "-3px" }}
           >
             <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-blue-600 mb-4 sm:mb-5 md:mb-6 text-center">
-              Edit Slides
+              Save to Clipboard
             </h2>
 
             {response.map((slide, index) => (
@@ -212,7 +212,7 @@ export default function Home() {
                   Slide {slide.slide_number}
                 </label>
                 <textarea
-                  value={slide.texts}
+                  value={slide.texts || "This is image"}
                   onChange={(e) => handleTextChange(index, e.target.value)}
                   className="block w-full p-2 sm:p-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                   rows="4"
@@ -259,7 +259,7 @@ export default function Home() {
             />
 
             <div className="relative z-10 bg-white p-4 sm:p-6 md:p-8 lg:p-10 rounded-md shadow-md w-full max-w-sm lg:max-w-none">
-              <Dropdown
+              {/* <Dropdown
                 title={"Transition Time"}
                 options={[
                   "0 sec",
@@ -275,7 +275,7 @@ export default function Home() {
                   "10 sec",
                 ]}
                 setValue={setTime}
-              />
+              /> */}
               {loading && (
                 <div className="mt-4 text-blue-600 flex flex-col items-center">
                   <div className="flex justify-center mt-2">

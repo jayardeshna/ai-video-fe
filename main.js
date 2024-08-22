@@ -39,6 +39,14 @@ const flaskPath = path.join(__dirname, 'main.exe');
 
 
 app.on('ready', () => {
+    flaskProcess = execFile(flaskPath, (error, stdout, stderr) => {
+        if (error) {
+            console.error(`exec error: ${error}`);
+            return;
+        }
+        console.log(`stdout: ${stdout}`);
+        console.error(`stderr: ${stderr}`);
+    });
 
     expressApp.use(express.static(path.join(__dirname, 'out')));
 
@@ -50,14 +58,7 @@ app.on('ready', () => {
         console.log('Server running on port 3000');
         createWindow();
     });
-    flaskProcess = execFile(flaskPath, (error, stdout, stderr) => {
-        if (error) {
-            console.error(`exec error: ${error}`);
-            return;
-        }
-        console.log(`stdout: ${stdout}`);
-        console.error(`stderr: ${stderr}`);
-    });
+
     ipcMain.on('open-folder', (event, folderPath) => {
         shell.showItemInFolder(folderPath);
     });
