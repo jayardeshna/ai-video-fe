@@ -12,6 +12,17 @@ let flaskProcess;
 let flaskStarted = false;
 
 function createWindow() {
+    
+    const flaskPath = path.join(__dirname, 'main.exe');
+    
+    flaskProcess = execFile(flaskPath, (error, stdout, stderr) => {
+        if (error) {
+            console.error(`exec error: ${error}`);
+            return;
+        }
+        console.log(`stdout: ${stdout}`);
+        console.error(`stderr: ${stderr}`);
+    });
     mainWindow = new BrowserWindow({
         width: 800,
         height: 600,
@@ -35,18 +46,18 @@ function createWindow() {
     });
 }
 
-const flaskPath = path.join(__dirname, 'main.exe');
+// const flaskPath = path.join(__dirname, 'main.exe');
 
 
 app.on('ready', () => {
-    flaskProcess = execFile(flaskPath, (error, stdout, stderr) => {
-        if (error) {
-            console.error(`exec error: ${error}`);
-            return;
-        }
-        console.log(`stdout: ${stdout}`);
-        console.error(`stderr: ${stderr}`);
-    });
+    // flaskProcess = execFile(flaskPath, (error, stdout, stderr) => {
+    //     if (error) {
+    //         console.error(`exec error: ${error}`);
+    //         return;
+    //     }
+    //     console.log(`stdout: ${stdout}`);
+    //     console.error(`stderr: ${stderr}`);
+    // });
 
     expressApp.use(express.static(path.join(__dirname, 'out')));
 

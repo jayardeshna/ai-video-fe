@@ -5,6 +5,7 @@ import axios from "axios";
 import Image from "next/image";
 import { useState } from "react";
 
+
 const languages = {
   English: "en",
   Hindi: "hi",
@@ -42,6 +43,7 @@ export default function Home() {
   const [language, setLanguage] = useState("English");
   const [time, setTime] = useState("0 sec");
   const [fileName, setFileName] = useState("");
+
 
   const handleFileUpload = (e) => {
     const uploadedFile = e.target.files[0];
@@ -120,7 +122,7 @@ export default function Home() {
           <div className="basis-full md:basis-1/2 mt-[3%] mx-4 md:mx-10">
             <div className="flex flex-col gap-y-5 text-center md:text-left">
               <div className="font-bold text-2xl md:text-3xl text-blue-600">
-                PowerPoint to Video and Audio Converter
+              PowerPoint to Video and Audio Converter
               </div>
               <div className="text-lg md:text-xl text-gray-600">
                 Effortlessly convert your PowerPoint presentations into video

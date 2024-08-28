@@ -19,10 +19,12 @@
     "electron-packager": "^17.1.2",
     "electron-serve": "^2.0.0",
     "express": "^4.19.2",
+    "formik": "^2.4.6",
     "next": "14.2.5",
     "react": "^18",
     "react-dom": "^18",
-    "wait-on": "^7.2.0"
+    "wait-on": "^7.2.0",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
