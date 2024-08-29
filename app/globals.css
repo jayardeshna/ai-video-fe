@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .loader {
-    border-top-color: #3490dc;
+    border-top-color: #000000;
     animation: spin 1s ease-in-out infinite;
 }
 
