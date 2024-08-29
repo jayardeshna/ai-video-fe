@@ -142,9 +142,11 @@ export default function Home() {
                 <h3 className="text-xl md:text-xl font-bold text-black-600 mb-1">
                   {fileUploaded ? "Uploaded File" : "Upload Your PPT"}
                 </h3>
-                <h5 className="text-xs md:text-xs font-bold text-gray-600 mb-3">
-                  Click 'Upload a file' to get started upload
-                </h5>
+                {!fileUploaded && (
+                  <h5 className="text-xs md:text-xs font-bold text-gray-600 mb-3">
+                    Click 'Upload a file' to get started upload
+                  </h5>
+                )}
                 {fileUploaded ? (
                   <div className="inline-flex items-center max-w-[16rem] overflow-hidden text-ellipsis whitespace-nowrap">
                     <svg
