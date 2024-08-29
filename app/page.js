@@ -286,7 +286,7 @@ export default function Home() {
                     <button
                       onClick={handleSubmit}
                       disabled={!fileUploaded || loading}
-                      className="mt-6 w-full bg-black text-white py-2 px-4 rounded-lg font-semibold hover:bg-gray-900 disabled:bg-gray-500"
+                      className="mt-6 w-full bg-black text-white py-2 px-4 rounded-lg font-semibold hover:bg-gray-900 disabled:bg-gray-500 max-w-[200px]"
                     >
                       Submit
                     </button>
