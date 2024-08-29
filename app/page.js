@@ -42,10 +42,12 @@ export default function Home() {
   const [language, setLanguage] = useState("English");
   const [time, setTime] = useState("0 sec");
   const [fileName, setFileName] = useState("");
+  const [uploadedFileName, setUploadedFileName] = useState("");
 
   const handleFileUpload = (e) => {
     const uploadedFile = e.target.files[0];
     setFile(uploadedFile);
+    setUploadedFileName(uploadedFile?.name);
     setFileUploaded(true);
   };
 
@@ -127,55 +129,156 @@ export default function Home() {
                 and audio files with our online tool.
               </div>
             </div>
-            <div className="bg-white p-8 rounded-lg shadow-lg w-full md:w-2/3 mx-auto text-center mt-10">
-              <h2 className="text-xl md:text-2xl font-bold text-blue-600 mb-6">
-                Upload Your PPT
-              </h2>
-              <input
-                type="file"
-                accept=".pptx,.ppt"
-                onChange={handleFileUpload}
-                className="block w-full text-sm text-gray-500
-                    file:mr-4 file:py-2 file:px-4
-                    file:rounded-full file:border-0
-                    file:text-sm file:font-semibold
-                    file:bg-blue-50 file:text-blue-600
-                    hover:file:bg-blue-100"
-              />
-              {fileUploaded && (
-                <Dropdown
-                  title={"Language"}
-                  options={[
-                    "English",
-                    "Hindi",
-                    "Gujarati",
-                    "Bengali",
-                    "Kannada",
-                    "Malayalam",
-                    "Marathi",
-                    "Punjabi",
-                    "Tamil",
-                    "Telugu",
-                    "Urdu",
-                  ]}
-                  setValue={setLanguage}
+            <div className="flex justify-center items-center bg-white p-7 rounded-2xl shadow-lg w-full md:w-2/3 mx-auto text-center mt-10">
+              <div className="w-full flex flex-col justify-center items-center">
+                <Image
+                  src={"/upload-icon.png"}
+                  alt="ppt-image"
+                  width={50}
+                  height={50}
+                  className="mb-2.5"
+                  unoptimized
                 />
-              )}
-              {loading && (
-                <div className="mt-4 text-blue-600">
-                  <p>{message}</p>
-                  <div className="flex justify-center mt-2">
-                    <div className="loader ease-linear rounded-full border-4 border-t-4 border-blue-200 h-8 w-8"></div>
+                <h3 className="text-xl md:text-xl font-bold text-black-600 mb-1">
+                  {fileUploaded ? "Uploaded File" : "Upload Your PPT"}
+                </h3>
+                <h5 className="text-xs md:text-xs font-bold text-gray-600 mb-3">
+                  Click 'Upload a file' to get started upload
+                </h5>
+                {fileUploaded ? (
+                  <div className="inline-flex items-center max-w-[16rem] overflow-hidden text-ellipsis whitespace-nowrap">
+                    <svg
+                      version="1.1"
+                      id="Layer_1"
+                      xmlns="http://www.w3.org/2000/svg"
+                      xmlnsXlink="http://www.w3.org/1999/xlink"
+                      x="0px"
+                      y="0px"
+                      viewBox="0 0 48 48"
+                      style={{ enableBackground: "new 0 0 48 48" }}
+                      xmlSpace="preserve"
+                      className="w-6 h-6 mr-2"
+                    >
+                      <path
+                        style={{ fill: "#D35230" }}
+                        d="M8,24c0,9.941,8.059,18,18,18s18-8.059,18-18H26H8z"
+                      />
+                      <path
+                        style={{ fill: "#FF8F6B" }}
+                        d="M26,6v18h18C44,14.059,35.941,6,26,6z"
+                      />
+                      <path
+                        style={{ fill: "#ED6C47" }}
+                        d="M26,6C16.059,6,8,14.059,8,24h18V6z"
+                      />
+                      <path
+                        style={{ opacity: 0.05 }}
+                        d="M26,16.681C26,14.648,24.352,13,22.319,13H11.774C9.417,16.044,8,19.852,8,24
+                c0,5.116,2.145,9.723,5.571,13h8.747C24.352,37,26,35.352,26,33.319V16.681z"
+                      />
+                      <path
+                        style={{ opacity: 0.07 }}
+                        d="M22.213,13.333H11.525C9.32,16.321,8,20.002,8,24c0,4.617,1.753,8.814,4.611,12h9.602
+                c1.724,0,3.121-1.397,3.121-3.121V16.454C25.333,14.731,23.936,13.333,22.213,13.333z"
+                      />
+                      <path
+                        style={{ opacity: 0.09 }}
+                        d="M22.106,13.667H11.276C9.218,16.593,8,20.151,8,24c0,4.148,1.417,7.956,3.774,11h10.332
+                c1.414,0,2.56-1.146,2.56-2.56V16.227C24.667,14.813,23.52,13.667,22.106,13.667z"
+                      />
+                      <linearGradient
+                        id="SVGID_1_"
+                        gradientUnits="userSpaceOnUse"
+                        x1="4.5858"
+                        y1="14.5858"
+                        x2="22.7705"
+                        y2="32.7705"
+                      >
+                        <stop offset="0" style={{ stopColor: "#CA4E2A" }} />
+                        <stop offset="1" style={{ stopColor: "#B63016" }} />
+                      </linearGradient>
+                      <path
+                        style={{ fill: "url(#SVGID_1_)" }}
+                        d="M22,34H6c-1.105,0-2-0.895-2-2V16c0-1.105,0.895-2,2-2h16c1.105,0,2,0.895,2,2v16
+                C24,33.105,23.105,34,22,34z"
+                      />
+                      <path
+                        style={{ fill: "#FFFFFF" }}
+                        d="M14.673,19.012H10v10h2.024v-3.521H14.3c1.876,0,3.397-1.521,3.397-3.397v-0.058
+                C17.697,20.366,16.343,19.012,14.673,19.012z M15.57,22.358c0,0.859-0.697,1.556-1.556,1.556h-1.99v-3.325h1.99
+                c0.859,0,1.556,0.697,1.556,1.556V22.358z"
+                      />
+                    </svg>
+                    <span className="text-gray-700 max-w-xs overflow-hidden text-ellipsis whitespace-nowrap">
+                      {uploadedFileName}
+                    </span>
                   </div>
-                </div>
-              )}
-              <button
-                onClick={handleSubmit}
-                disabled={!fileUploaded || loading}
-                className="mt-6 w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 disabled:bg-blue-300"
-              >
-                Submit
-              </button>
+                ) : (
+                  <div className="flex justify-center items-center">
+                    <label
+                      htmlFor="file-upload"
+                      className="cursor-pointer inline-flex items-center bg-black text-white py-2 px-4 rounded-lg font-semibold hover:bg-gray-900"
+                    >
+                      <svg
+                        className="w-6 h-6 mr-2 bg-white text-black rounded-full p-1"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      Upload Your PPT
+                    </label>
+                    <input
+                      id="file-upload"
+                      type="file"
+                      accept=".pptx,.ppt"
+                      onChange={handleFileUpload}
+                      className="hidden"
+                    />
+                  </div>
+                )}
+                {fileUploaded && !loading && (
+                  <Dropdown
+                    title={"Language"}
+                    options={[
+                      "English",
+                      "Hindi",
+                      "Gujarati",
+                      "Bengali",
+                      "Kannada",
+                      "Malayalam",
+                      "Marathi",
+                      "Punjabi",
+                      "Tamil",
+                      "Telugu",
+                      "Urdu",
+                    ]}
+                    setValue={setLanguage}
+                  />
+                )}
+                {loading && (
+                  <div className="mt-4 text-black">
+                    <p>{message}</p>
+                    <div className="flex justify-center mt-2">
+                      <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-8 w-8"></div>
+                    </div>
+                  </div>
+                )}
+                {fileUploaded && (
+                  <button
+                    onClick={handleSubmit}
+                    disabled={!fileUploaded || loading}
+                    className="mt-6 w-full bg-black text-white py-2 px-4 rounded-lg font-semibold hover:bg-gray-900 disabled:bg-gray-500"
+                  >
+                    Submit
+                  </button>
+                )}
+              </div>
             </div>
           </div>
           <div

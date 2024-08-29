@@ -3,7 +3,7 @@ export const Dropdown = ({ title, options, setValue }) => {
     setValue(e.target.value); // Update state with selected language
   };
   return (
-    <div className="mt-6">
+    <div className="mt-4">
       <label
         htmlFor="language"
         className="block text-sm font-medium text-gray-700"
