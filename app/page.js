@@ -121,12 +121,12 @@ export default function Home() {
         >
           <div className="basis-full md:basis-1/2 mt-[3%] mx-4 md:mx-10">
             <div className="flex flex-col gap-y-5 text-center md:text-left">
-              <div className="font-bold text-2xl md:text-3xl text-blue-600">
-                PowerPoint to Video and Audio Converter
+              <div className="font-bold text-2xl md:text-3xl text-black-600">
+                Addsoft AI Based PowerPoint to Video Converter
               </div>
               <div className="text-lg md:text-xl text-gray-600">
                 Effortlessly convert your PowerPoint presentations into video
-                and audio files with our online tool.
+                files with our AI based online tool.
               </div>
             </div>
             <div className="flex justify-center items-center bg-white p-7 rounded-2xl shadow-lg w-full md:w-2/3 mx-auto text-center mt-10">
@@ -233,7 +233,7 @@ export default function Home() {
                           clipRule="evenodd"
                         />
                       </svg>
-                      Upload Your PPT
+                      Upload Your File
                     </label>
                     <input
                       id="file-upload"
