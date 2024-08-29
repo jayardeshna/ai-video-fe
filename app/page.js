@@ -296,7 +296,11 @@ export default function Home() {
             </div>
             <div
               className="hidden md:flex items-center justify-center w-full overflow-hidden relative"
-              style={{ width: "46%", position: "relative" }}
+              style={{
+                width: "46%",
+                position: "relative",
+                overflow: "visible",
+              }}
             >
               <div
                 className="relative w-full h-full"
@@ -310,6 +314,47 @@ export default function Home() {
                   backgroundRepeat: "no-repeat",
                 }}
               ></div>
+              <div className="absolute" style={{ top: "56%", left: "-12%" }}>
+                <Image
+                  src="/ai.png"
+                  alt="Image 1"
+                  width={100}
+                  height={100}
+                  className="object-contain"
+                  unoptimized
+                />
+              </div>
+
+              {/* <div className="absolute" style={{ top: "30%", left: "30px" }}>
+                <Image
+                  src="/ai-2.png"
+                  alt="Image 2"
+                  width={100}
+                  height={100}
+                  className="object-contain"
+                  unoptimized
+                />
+              </div> */}
+              <div className="absolute" style={{ top: "15%", left: "7%" }}>
+                <Image
+                  src="/ppt-2.png"
+                  alt="Image 3"
+                  width={100}
+                  height={100}
+                  className="object-contain"
+                  unoptimized
+                />
+              </div>
+              <div className="absolute" style={{ top: "27%", right: "0" }}>
+                <Image
+                  src="/ppt.png"
+                  alt="Image 4"
+                  width={100}
+                  height={100}
+                  className="object-contain"
+                  unoptimized
+                />
+              </div>
               <div
                 className="absolute top-[25px] right-[15px] p-2"
                 style={{ height: "auto", width: "auto" }}
