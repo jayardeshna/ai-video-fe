@@ -115,9 +115,19 @@ export default function Home() {
   return (
     <>
       <div className="flex flex-col min-h-screen">
+        <Image
+          src="/bg.jpeg"
+          alt="background"
+          layout="fixed"
+          unoptimized
+          width={100}
+          height={100}
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ zIndex: -1 }}
+        />
         {response.length === 0 ? (
           <div
-            className="flex flex-col md:flex-row flex-grow bg-blue-100 overflow-hidden"
+            className="flex flex-col md:flex-row flex-grow overflow-hidden"
             style={{ height: "calc(100vh - 4rem)" }}
           >
             <div className="basis-full md:basis-1/2 mt-[3%] mx-4 md:mx-10">
@@ -286,18 +296,24 @@ export default function Home() {
             </div>
             <div
               className="hidden md:flex items-center justify-center w-full overflow-hidden relative"
-              style={{ width: "60%" }}
+              style={{ width: "46%", position: "relative" }}
             >
-              <Image
-                src={"/home.jpeg"}
-                alt="home-image"
-                className="w-full rounded-l-full"
-                layout="responsive"
-                width={100}
-                height={100}
-                unoptimized
-              />
-              <div className="absolute top-[25px] right-[15px] p-2">
+              <div
+                className="relative w-full h-full"
+                style={{
+                  backgroundImage: 'url("/home3.png")',
+                  backgroundSize: "contain",
+                  backgroundPosition: "bottom center",
+                  height: "80%",
+                  position: "absolute",
+                  bottom: 0,
+                  backgroundRepeat: "no-repeat",
+                }}
+              ></div>
+              <div
+                className="absolute top-[25px] right-[15px] p-2"
+                style={{ height: "auto", width: "auto" }}
+              >
                 <Image
                   src={"/company-logo.png"}
                   alt="company-logo"
@@ -312,7 +328,7 @@ export default function Home() {
           </div>
         ) : (
           <div
-            className="flex flex-col-reverse lg:flex-row items-start justify-center p-4 md:p-6 lg:p-10 bg-blue-100 gap-5 flex-grow"
+            className="flex flex-col-reverse lg:flex-row items-start justify-center p-4 md:p-6 lg:p-10 gap-5 flex-grow"
             style={{ height: "calc(100vh - 4rem)" }}
           >
             <div
