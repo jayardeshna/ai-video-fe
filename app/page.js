@@ -284,7 +284,7 @@ export default function Home() {
             </div>
           </div>
           <div
-            className="hidden md:flex items-center justify-center w-full overflow-hidden"
+            className="hidden md:flex items-center justify-center w-full overflow-hidden relative"
             style={{ width: "60%" }}
           >
             <Image
@@ -296,6 +296,17 @@ export default function Home() {
               height={100}
               unoptimized
             />
+            <div className="absolute top-[25px] right-[15px] p-2">
+              <Image
+                src={"/company-logo.png"}
+                alt="company-logo"
+                className="aspect-[2/1]"
+                layout="fixed"
+                width={150}
+                height={300}
+                unoptimized
+              />
+            </div>
           </div>
         </div>
       ) : (
